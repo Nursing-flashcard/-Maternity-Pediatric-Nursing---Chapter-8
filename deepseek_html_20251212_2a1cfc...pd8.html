@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternity & Pediatric Nursing - Chapter 8 Flashcards</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #d35400 0%, #a04000 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            height: 95vh;
+            max-height: 95vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #d35400, #a04000);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M30,30 Q50,10 70,30 T90,50 T70,70 T50,90 T30,70 T10,50 T30,30 Z" fill="white"/></svg>');
+        }
+        
+        .header h1 {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .header .subtitle {
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            opacity: 0.9;
+            position: relative;
+        }
+        
+        .progress {
+            background: #8b4513;
+            height: 8px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #d35400, #a04000);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .flashcard {
+            padding: clamp(10px, 3vw, 20px);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8f9fa;
+            overflow-y: auto;
+        }
+        
+        .question-container {
+            display: flex;
+            gap: clamp(10px, 2vw, 15px);
+            align-items: flex-start;
+            margin-bottom: clamp(10px, 2vw, 15px);
+        }
+        
+        .question-icon {
+            background: #d35400;
+            color: white;
+            width: clamp(35px, 8vw, 50px);
+            height: clamp(35px, 8vw, 50px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(211, 84, 0, 0.3);
+        }
+        
+        .question {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            line-height: 1.6;
+            color: #2c3e50;
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        
+        .multiple-select-indicator {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 1.5vw, 10px);
+            margin-bottom: clamp(10px, 2vw, 20px);
+            flex: 1;
+        }
+        
+        .option {
+            padding: clamp(10px, 2vw, 14px) clamp(12px, 2.5vw, 18px);
+            border: 2px solid #fdebd0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, 1.5vw, 10px);
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+        
+        .option:hover {
+            background: #fdebd0;
+            border-color: #f39c12;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .option-letter {
+            background: #fdebd0;
+            color: #2c3e50;
+            width: clamp(24px, 5vw, 28px);
+            height: clamp(24px, 5vw, 28px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+        }
+        
+        /* CORRECT - ALWAYS GREEN */
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option.correct .option-letter {
+            background: #28a745;
+            color: white;
+        }
+        
+        /* INCORRECT - ALWAYS RED */
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .option.incorrect .option-letter {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .feedback {
+            padding: clamp(12px, 2.5vw, 16px);
+            border-radius: 12px;
+            margin-bottom: clamp(10px, 2vw, 16px);
+            display: none;
+            align-items: center;
+            gap: clamp(8px, 1.5vw, 12px);
+            font-weight: 500;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            display: flex;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+            display: flex;
+        }
+        
+        .feedback-icon {
+            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            flex-shrink: 0;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(12px, 2.5vw, 16px) clamp(16px, 3vw, 24px);
+            background: #fdebd0;
+            border-top: 1px solid #f8c471;
+            flex-shrink: 0;
+        }
+        
+        .counter {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+        
+        .btn {
+            padding: clamp(10px, 2vw, 12px) clamp(15px, 2.5vw, 20px);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: clamp(6px, 1vw, 8px);
+            font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+            white-space: nowrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #d35400, #a04000);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(211, 84, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f39c12, #d35400);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .rationale {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #ffd43b;
+            border-radius: 12px;
+            padding: clamp(12px, 2.5vw, 16px);
+            margin-top: clamp(8px, 1.5vw, 12px);
+            display: none;
+        }
+        
+        .rationale.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .rationale h4 {
+            color: #856404;
+            margin-bottom: clamp(6px, 1.2vw, 10px);
+            display: flex;
+            align-items: center;
+            gap: clamp(6px, 1.2vw, 8px);
+            font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+        }
+        
+        .rationale p {
+            color: #856404;
+            line-height: 1.6;
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stats {
+            display: flex;
+            gap: clamp(8px, 1.5vw, 15px);
+            justify-content: center;
+            margin-top: clamp(4px, 1vw, 10px);
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: rgba(255,255,255,0.2);
+            padding: clamp(5px, 1vw, 6px) clamp(8px, 1.8vw, 12px);
+            border-radius: 20px;
+            font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+            white-space: nowrap;
+        }
+        
+        /* Cancel selection button */
+        .cancel-selection {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            margin: 0 auto clamp(10px, 2vw, 15px) auto;
+            display: none;
+        }
+        
+        .cancel-selection:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .cancel-selection.show {
+            display: flex;
+        }
+        
+        /* Study mode controls */
+        .study-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .study-btn {
+            padding: 8px 16px;
+            border: 2px solid #d35400;
+            background: white;
+            color: #d35400;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .study-btn.active {
+            background: #d35400;
+            color: white;
+        }
+        
+        .study-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(211, 84, 0, 0.2);
+        }
+        
+        /* Multiple select instructions */
+        .multiple-select-instructions {
+            text-align: center;
+            color: #e74c3c;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .score-display {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩺 Maternity & Pediatric Nursing - Chapter 8</h1>
+            <div class="subtitle">Cancers of the Female Reproductive Tract | 25 Questions</div>
+            <div class="stats">
+                <div class="stat">📚 Test Bank Questions</div>
+                <div class="stat">🎯 Detailed Rationales</div>
+                <div class="stat">🔢 Multiple-Answer Questions</div>
+                <div class="stat">↩️ Cancel Wrong Answers</div>
+            </div>
+            <div class="score-display" id="scoreDisplay">Score: 0/25</div>
+        </div>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="flashcard">
+            <div class="study-controls">
+                <button class="study-btn active" id="allQuestionsBtn" onclick="setStudyMode('all')">All Questions</button>
+                <button class="study-btn" id="multipleSelectBtn" onclick="setStudyMode('multiple')">Multiple-Select Only</button>
+                <button class="study-btn" id="singleSelectBtn" onclick="setStudyMode('single')">Single-Select Only</button>
+                <button class="study-btn" id="incorrectBtn" onclick="setStudyMode('incorrect')">Review Incorrect</button>
+            </div>
+            
+            <div class="question-container">
+                <div class="question-icon">?</div>
+                <div class="question" id="question"></div>
+                <div class="multiple-select-indicator" id="multipleSelectIndicator" style="display: none;">Multiple Answers</div>
+            </div>
+            
+            <div class="multiple-select-instructions" id="multipleSelectInstructions" style="display: none;">
+                💡 Select ALL correct answers - This question has multiple correct options
+            </div>
+            
+            <div class="options" id="options"></div>
+            
+            <!-- Cancel Selection Button - Only shows for wrong answers -->
+            <button class="btn cancel-selection" id="cancelBtn" onclick="cancelSelection()">
+                ↩️ Cancel Selection
+            </button>
+            
+            <div class="feedback" id="feedback">
+                <div class="feedback-icon" id="feedbackIcon"></div>
+                <div id="feedbackText"></div>
+            </div>
+            <div class="rationale" id="rationale">
+                <h4>💡 Rationale:</h4>
+                <p id="rationaleText"></p>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousCard()">
+                ⬅️ Previous
+            </button>
+            <div class="counter" id="counter">1/25</div>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextCard()">
+                Next ➡️
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. The nurse would refer a client, age 54, for follow-up for suspected endometrial carcinoma if she reports which of the following?",
+                options: [
+                    "Use of oral contraceptives between ages 18 and 25",
+                    "Onset of painless, red postmenopausal bleeding",
+                    "Menopause occurring at age 46",
+                    "Use of intrauterine device for 3 years"
+                ],
+                correct: 1,
+                rationale: "Postmenopausal bleeding (especially painless) is the most common symptom of endometrial cancer and requires immediate evaluation. Oral contraceptive use actually reduces endometrial cancer risk. Menopause at 46 is normal. IUD use is not a significant risk factor."
+            },
+            {
+                question: "2. Which of the following instructions would the nurse include when preparing a woman for a Pap smear?",
+                options: [
+                    "\"Refrain from sexual intercourse for 1 week before the test.\"",
+                    "\"Wear cotton panties on the day of the test.\"",
+                    "\"Avoid taking any medications for 24 hours.\"",
+                    "\"Do not douche for 48 hours before the test.\""
+                ],
+                correct: 3,
+                rationale: "Douching can wash away cervical cells and interfere with Pap smear results. Patients should avoid douching for 48 hours before the test. Sexual abstinence for 24-48 hours is recommended, not a week. Underwear type doesn't matter. Medications generally aren't restricted."
+            },
+            {
+                question: "3. A woman comes to the clinic for a routine checkup. A history of exposure to which of the following would alert the nurse that she is at increased risk for cervical cancer?",
+                options: [
+                    "Hepatitis",
+                    "Human papillomavirus",
+                    "Cytomegalovirus",
+                    "Epstein-Barr virus"
+                ],
+                correct: 1,
+                rationale: "HPV (especially high-risk types 16 and 18) is the primary cause of cervical cancer. Persistent HPV infection is necessary for cervical cancer development. The other viruses are not strongly associated with cervical cancer."
+            },
+            {
+                question: "4. A client is scheduled to have a Pap smear. After the nurse teaches the client about the Pap smear, which of the following client statements indicates successful teaching?",
+                options: [
+                    "\"I need to douche the night before with a mild vinegar solution.\"",
+                    "\"I will take a bath first thing that morning to make sure I'm clean.\"",
+                    "\"I will not engage in sexual intercourse for 48 hours before the test.\"",
+                    "\"I will get a clean urine specimen when I first wake up the morning of the test.\""
+                ],
+                correct: 2,
+                rationale: "Sexual intercourse within 48 hours before a Pap smear can affect results by introducing sperm, lubricants, or causing cervical irritation. Douching should be avoided. Bathing is fine but not required. Urine specimen is not typically collected with Pap smear."
+            },
+            {
+                question: "5. Which finding obtained during a client history would the nurse identify as increasing a client's risk for ovarian cancer?",
+                options: [
+                    "Multiple sexual partners",
+                    "Consumption of a high-fat diet",
+                    "Underweight",
+                    "Grand multiparity (more than five children)"
+                ],
+                correct: 1,
+                rationale: "High-fat diets may increase ovarian cancer risk. Multiple sexual partners is a cervical cancer risk. Underweight is not a specific risk factor. Grand multiparity actually decreases ovarian cancer risk (each pregnancy reduces risk by about 10%)."
+            },
+            {
+                question: "6. A client is scheduled for cryosurgery to remove some abnormal tissue on the cervix. The nurse teaches the client about this treatment, explaining that the tissue will be removed by which method?",
+                options: [
+                    "Freezing",
+                    "Cutting",
+                    "Burning",
+                    "Irradiating"
+                ],
+                correct: 0,
+                rationale: "Cryosurgery uses extreme cold (liquid nitrogen or carbon dioxide) to freeze and destroy abnormal cervical tissue. It's used for precancerous lesions. Cutting describes LEEP or cone biopsy. Burning describes electrocautery. Irradiating describes radiation therapy."
+            },
+            {
+                question: "7. Which of the following statements best indicates that a client has taken self-care measures to reduce her risk for cervical cancer?",
+                options: [
+                    "\"I've really cut down on the amount of caffeine I drink every day.\"",
+                    "\"I've thrown out all my bubble baths and just use soap and water now.\"",
+                    "\"Every time I have sexual intercourse, I douche.\"",
+                    "\"My partner always uses a condom when we have sexual intercourse.\""
+                ],
+                correct: 3,
+                rationale: "Condom use reduces HPV transmission, the primary cause of cervical cancer. Caffeine reduction doesn't affect cervical cancer risk. Bubble baths are not a risk factor. Douching may actually increase risk by altering vaginal flora and pushing pathogens upward."
+            },
+            {
+                question: "8. A client is suspected of having endometrial cancer. The nurse would most likely prepare the client for which procedure to confirm the diagnosis?",
+                options: [
+                    "Transvaginal ultrasound",
+                    "Colposcopy",
+                    "Pap smear",
+                    "Endometrial biopsy"
+                ],
+                correct: 3,
+                rationale: "Endometrial biopsy (or D&C) is the definitive diagnostic test for endometrial cancer, allowing tissue sampling. Transvaginal ultrasound evaluates thickness but doesn't diagnose cancer. Colposcopy is for cervical abnormalities. Pap smear screens for cervical, not endometrial, cancer."
+            },
+            {
+                question: "9. Which of the following descriptions would the nurse include when teaching a client about her scheduled colposcopy?",
+                options: [
+                    "\"A gel will be applied to your abdomen and a microphone-like device will be moved over the area to identify problem areas.\"",
+                    "\"A solution will be wiped on your cervix to identify any abnormal cells, which will be visualized with a magnifying instrument.\"",
+                    "\"Scrapings of tissue will be obtained and placed on slides to be examined under the microscope.\"",
+                    "\"After you receive anesthesia, a small device will be inserted into your abdomen near your belly button to obtain tissue samples.\""
+                ],
+                correct: 1,
+                rationale: "Colposcopy involves applying acetic acid (vinegar solution) to the cervix and examining it with a colposcope (magnifying instrument) to identify abnormal areas for biopsy. The first describes ultrasound. The third describes Pap smear. The fourth describes laparoscopy."
+            },
+            {
+                question: "10. The nurse is preparing a presentation for a local women's group about ways to reduce the risk of reproductive tract cancers. Which of the following would the nurse include?",
+                options: [
+                    "Blood pressure evaluation every 6 months",
+                    "Yearly Pap smears starting at age 40",
+                    "Yearly cholesterol screening starting at age 45",
+                    "Consumption of two to three glasses of red wine per day"
+                ],
+                correct: 1,
+                rationale: "Regular Pap smears (now recommended starting at age 21, not 40) are crucial for early detection of cervical cancer. Blood pressure and cholesterol screening don't directly prevent reproductive cancers. Alcohol consumption may increase, not decrease, cancer risk."
+            },
+            {
+                question: "11. The daughter of a woman who has been diagnosed with ovarian cancer asks the nurse about screening for this cancer. Which response by the nurse would be most appropriate?",
+                options: [
+                    "\"Currently there is no reliable screening test for ovarian cancer.\"",
+                    "\"A Pap smear is almost always helpful in identifying this type of cancer.\"",
+                    "\"There's a blood test for a marker, CA-125, that if elevated indicates cancer.\"",
+                    "\"A genetic test for two genes, if positive, will identify the ovarian cancer.\""
+                ],
+                correct: 0,
+                rationale: "There is currently no reliable screening test for ovarian cancer for the general population. CA-125 can be elevated in many conditions (not specific) and is used more for monitoring than screening. Pap smear detects cervical cancer. Genetic tests identify risk, not cancer presence."
+            },
+            {
+                question: "12. Which of the following would the nurse be least likely to suggest when teaching a group of young women how to reduce their risk for ovarian cancer?",
+                options: [
+                    "Pregnancy",
+                    "Oral contraceptives",
+                    "Feminine hygiene sprays",
+                    "Breast-feeding"
+                ],
+                correct: 2,
+                rationale: "Feminine hygiene sprays can cause irritation but don't reduce ovarian cancer risk. Pregnancy, oral contraceptives, and breastfeeding all reduce ovarian cancer risk by suppressing ovulation (the \"incessant ovulation\" hypothesis)."
+            },
+            {
+                question: "13. A woman is diagnosed with adenocarcinoma of the endometrium in situ. The nurse interprets this as indicating which of the following about the cancer?",
+                options: [
+                    "Spread to the uterine muscle wall",
+                    "Found on the endometrial surface",
+                    "Spread to the cervix",
+                    "Invaded the bladder"
+                ],
+                correct: 1,
+                rationale: "\"In situ\" means the cancer cells are confined to the surface layer of the endometrium and have not invaded deeper tissues. Spread to muscle wall would be invasive. Spread beyond uterus indicates more advanced stages."
+            },
+            {
+                question: "14. When preparing a woman with suspected vulvar cancer for a biopsy, the nurse expects that the lesion would most likely be located at which area?",
+                options: [
+                    "Labia majora",
+                    "Labia minora",
+                    "Clitoris",
+                    "Prepuce"
+                ],
+                correct: 0,
+                rationale: "Vulvar cancer most commonly occurs on the labia majora (approximately 50% of cases), followed by labia minora. Clitoral and prepuce involvement is less common. The labia majora have more surface area and are more frequently affected."
+            },
+            {
+                question: "15. When describing the various types of reproductive tract cancers to a local women's group, which of the following would the nurse identify as the least common type?",
+                options: [
+                    "Vulvar",
+                    "Vaginal",
+                    "Endometrial",
+                    "Ovarian"
+                ],
+                correct: 1,
+                rationale: "Primary vaginal cancer is the rarest gynecologic cancer, accounting for only 1-2% of cases. Endometrial cancer is most common, followed by ovarian, then cervical, then vulvar. Vaginal cancer is often metastatic from other sites rather than primary."
+            },
+            {
+                question: "16. When assessing a female client for the possibility of vulvar cancer, which of the following would the nurse most likely expect the client to report? (Select all that apply.)",
+                options: [
+                    "Abnormal vaginal bleeding",
+                    "Persistent vulvar itching",
+                    "History of herpes simplex",
+                    "Lesion on the cervix",
+                    "Abnormal Pap smear"
+                ],
+                correct: [1, 2],
+                rationale: "Vulvar cancer commonly presents with persistent itching (pruritus), burning, or a visible lump/sore on the vulva. Vaginal bleeding suggests endometrial or cervical issues. Herpes is an STI but not diagnostic for cancer. Cervical lesions suggest cervical cancer. Abnormal Pap is for cervical screening."
+            },
+            {
+                question: "17. A nurse is reviewing the medical record of a woman diagnosed with vulvar cancer. Which of the following would the nurse identify as a risk factor for this cancer? (Select all that apply.)",
+                options: [
+                    "Age under 40 years",
+                    "HPV 16 exposure",
+                    "Monogamous sexual partner",
+                    "Hypertension",
+                    "Diabetes"
+                ],
+                correct: [1, 4],
+                rationale: "HPV 16 infection is a major risk factor for vulvar cancer (especially younger women). Diabetes is associated due to chronic irritation from glycosuria. Age over 60 is a risk factor, not under 40. Monogamy reduces HPV risk. Hypertension is not a direct risk factor."
+            },
+            {
+                question: "18. A nurse is assisting with the collection of a Pap smear. When collecting the specimen, which of the following is done first?",
+                options: [
+                    "Insertion of the speculum",
+                    "Swabbing of the endocervix",
+                    "Spreading of the labia",
+                    "Insertion of the cytobrush"
+                ],
+                correct: 2,
+                rationale: "Proper technique begins with spreading the labia to visualize the vaginal opening before speculum insertion. Speculum insertion comes next, then specimen collection (cytobrush/endocervical swab). The sequence ensures proper visualization and specimen quality."
+            },
+            {
+                question: "19. The plan of care for a woman diagnosed with a suspected reproductive cancer includes a nursing diagnosis of disturbed body image related to suspected reproductive tract cancer and impact on sexuality as evidenced by the client's statement that she is worried that she won't be the same. Which of the following would be an appropriate outcome for this client?",
+                options: [
+                    "Client will verbalize positive statements about self and sexuality.",
+                    "Client will demonstrate understanding of the condition and associated treatment.",
+                    "Client will exhibit positive coping strategies related to diagnosis.",
+                    "Client will identify misconceptions related to her diagnosis."
+                ],
+                correct: 0,
+                rationale: "For disturbed body image, the most direct outcome is verbalizing positive self-statements about body and sexuality. Understanding treatment, coping strategies, and identifying misconceptions are important but don't directly address body image concerns."
+            },
+            {
+                question: "20. During a routine health check-up, a young adult woman asks the nurse about ways to prevent endometrial cancer. Which of the following would the nurse most likely include? (Select all that apply.)",
+                options: [
+                    "Eating a high-fat diet",
+                    "Having regular pelvic exams",
+                    "Engaging in daily exercise",
+                    "Becoming pregnant",
+                    "Using estrogen contraceptives"
+                ],
+                correct: [2, 3],
+                rationale: "Exercise helps maintain healthy weight, reducing endometrial cancer risk (obesity is a major risk factor). Pregnancy reduces risk by decreasing lifetime estrogen exposure. High-fat diet increases risk. Pelvic exams detect but don't prevent. Estrogen-only contraceptives (without progestin) may increase risk."
+            },
+            {
+                question: "21. After teaching a group of students about cervical cancer, the instructor determines that the teaching was successful when the students identify which of the following as the area included with a cone biopsy?",
+                options: [
+                    "Clitoris",
+                    "Uterine fundus",
+                    "Ovarian follicle",
+                    "Transformation zone"
+                ],
+                correct: 3,
+                rationale: "Cone biopsy removes a cone-shaped section of the cervix including the transformation zone (where most cervical cancers develop). It includes the squamocolumnar junction. It does not involve clitoris, uterine fundus, or ovaries."
+            },
+            {
+                question: "22. A woman is scheduled for diagnostic testing to evaluate for endometrial cancer. The nurse would expect to prepare the woman for which of the following?",
+                options: [
+                    "CA-125 testing",
+                    "Transvaginal ultrasound",
+                    "Pap smear",
+                    "Mammography"
+                ],
+                correct: 1,
+                rationale: "Transvaginal ultrasound measures endometrial thickness and can identify abnormalities suggestive of endometrial cancer. CA-125 is more for ovarian cancer monitoring. Pap smear screens for cervical cancer. Mammography is for breast cancer."
+            },
+            {
+                question: "23. A nurse is conducting a class for a local woman's group about recommendations for a Pap smear. One of the participants asks, 'At what age should a woman have her first Pap smear?' The nurse responds by stating that a woman should have her first Pap smear at which age?",
+                options: [
+                    "18",
+                    "21",
+                    "25",
+                    "28"
+                ],
+                correct: 1,
+                rationale: "Current guidelines recommend first Pap smear at age 21, regardless of sexual activity. Previous recommendations started earlier, but current evidence supports starting at 21 to avoid unnecessary procedures for transient HPV infections in adolescents."
+            },
+            {
+                question: "24. An instructor is describing the development of cervical cancer to a group of students. The instructor determines that the teaching was successful when the students identify which area as most commonly involved?",
+                options: [
+                    "Internal cervical os",
+                    "Junction of the cervix and fundus",
+                    "Squamous-columnar junction",
+                    "External cervical os"
+                ],
+                correct: 2,
+                rationale: "Cervical cancer most commonly arises at the squamocolumnar junction (transformation zone) where columnar epithelium meets squamous epithelium. This area is vulnerable to HPV infection and malignant transformation."
+            },
+            {
+                question: "25. A client has an abnormal Pap smear that is classified as ASC-US. Based on the nurse's understanding of this classification, the nurse would expect which of the following?",
+                options: [
+                    "Immediate colposcopy",
+                    "Testing for HPV",
+                    "Repeat Pap smear in 4 to 6 months",
+                    "Cone biopsy"
+                ],
+                correct: 1,
+                rationale: "ASC-US (Atypical Squamous Cells of Undetermined Significance) management typically involves HPV testing. If HPV positive → colposcopy; if HPV negative → repeat Pap in 3 years. Immediate colposcopy is for higher-grade abnormalities. Cone biopsy is for confirmed high-grade lesions."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let selectedOption = null;
+        let score = 0;
+        let answers = Array(questions.length).fill(null);
+        let incorrectQuestions = [];
+        let studyMode = 'all'; // 'all', 'multiple', 'single', 'incorrect'
+        let filteredQuestions = [...questions];
+
+        function updateScoreDisplay() {
+            const correctCount = questions.reduce((count, question, index) => {
+                if (answers[index] === null || answers[index] === undefined) return count;
+                
+                if (Array.isArray(question.correct)) {
+                    const selected = answers[index] || [];
+                    const allCorrect = question.correct.every(c => selected.includes(c));
+                    const noIncorrect = selected.every(s => question.correct.includes(s));
+                    return allCorrect && noIncorrect ? count + 1 : count;
+                } else {
+                    return answers[index] === question.correct ? count + 1 : count;
+                }
+            }, 0);
+            
+            document.getElementById('scoreDisplay').textContent = `Score: ${correctCount}/${questions.length}`;
+            return correctCount;
+        }
+
+        function setStudyMode(mode) {
+            studyMode = mode;
+            
+            // Update button states
+            document.querySelectorAll('.study-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(mode + 'Btn').classList.add('active');
+            
+            // Filter questions based on mode
+            switch(mode) {
+                case 'all':
+                    filteredQuestions = [...questions];
+                    break;
+                case 'multiple':
+                    filteredQuestions = questions.filter(q => Array.isArray(q.correct) && q.correct.length > 1);
+                    break;
+                case 'single':
+                    filteredQuestions = questions.filter(q => !Array.isArray(q.correct) || q.correct.length === 1);
+                    break;
+                case 'incorrect':
+                    filteredQuestions = questions.filter((_, index) => incorrectQuestions.includes(index));
+                    if (filteredQuestions.length === 0) {
+                        alert('No incorrect questions to review yet!');
+                        filteredQuestions = [...questions];
+                    }
+                    break;
+            }
+            
+            currentQuestion = 0;
+            loadQuestion();
+        }
+
+        function isMultipleSelectQuestion(question) {
+            return Array.isArray(question.correct) && question.correct.length > 1;
+        }
+
+        function loadQuestion() {
+            if (filteredQuestions.length === 0) {
+                document.getElementById('question').textContent = "No questions available for the selected study mode.";
+                document.getElementById('options').innerHTML = '';
+                document.getElementById('counter').textContent = `0/0`;
+                return;
+            }
+
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            document.getElementById('question').textContent = question.question;
+            document.getElementById('counter').textContent = `${currentQuestion + 1}/${filteredQuestions.length}`;
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            
+            // Show/hide multiple select indicators
+            const isMultiple = isMultipleSelectQuestion(question);
+            document.getElementById('multipleSelectIndicator').style.display = isMultiple ? 'block' : 'none';
+            document.getElementById('multipleSelectInstructions').style.display = isMultiple ? 'block' : 'none';
+            
+            // Load options
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.innerHTML = `
+                    <div class="option-letter">${String.fromCharCode(65 + index)}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionElement.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Reset feedback and rationale
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('rationale').className = 'rationale';
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = currentQuestion === filteredQuestions.length - 1 ? 'Finish ➡️' : 'Next ➡️';
+            
+            // Check if we have a stored answer for this question
+            const storedAnswer = answers[originalIndex];
+            document.getElementById('nextBtn').disabled = storedAnswer === null || storedAnswer === undefined;
+            
+            // Reset cancel button visibility
+            document.getElementById('cancelBtn').classList.remove('show');
+            
+            // If this question was already answered, show the answer
+            if (storedAnswer !== null && storedAnswer !== undefined) {
+                if (Array.isArray(storedAnswer)) {
+                    // Multiple selection question
+                    storedAnswer.forEach(index => {
+                        selectOption(index, true);
+                    });
+                } else {
+                    // Single selection question
+                    selectOption(storedAnswer, true);
+                }
+            }
+            
+            // Update score display
+            updateScoreDisplay();
+        }
+
+        function selectOption(index, fromMemory = false) {
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            // Check if this is a multiple selection question
+            if (isMultipleSelectQuestion(question)) {
+                // Multiple selection logic
+                if (!fromMemory) {
+                    if (!answers[originalIndex]) {
+                        answers[originalIndex] = [];
+                    }
+                    
+                    const optionIndex = answers[originalIndex].indexOf(index);
+                    if (optionIndex === -1) {
+                        answers[originalIndex].push(index);
+                    } else {
+                        answers[originalIndex].splice(optionIndex, 1);
+                    }
+                }
+                
+                highlightSelectedOptions();
+                showFeedbackForMultiple();
+                
+                // Enable next button if at least one option is selected
+                document.getElementById('nextBtn').disabled = !answers[originalIndex] || answers[originalIndex].length === 0;
+                updateScoreDisplay();
+                return;
+            }
+            
+            // Single selection logic
+            if (selectedOption !== null && !fromMemory) return;
+            
+            if (!fromMemory) {
+                selectedOption = index;
+                answers[originalIndex] = index;
+            }
+            
+            highlightSelectedOption(index);
+            showFeedback(index);
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            updateScoreDisplay();
+        }
+
+        function highlightSelectedOption(index) {
+            const options = document.querySelectorAll('.option');
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            options.forEach((option, i) => {
+                option.classList.remove('correct', 'incorrect');
+                
+                if (i === index) {
+                    // ALWAYS show correct answers in GREEN
+                    if (i === question.correct) {
+                        option.classList.add('correct');
+                        if (!answers[originalIndex]) score++;
+                        document.getElementById('cancelBtn').classList.remove('show');
+                        
+                        // Remove from incorrect questions if it was there
+                        const incorrectIndex = incorrectQuestions.indexOf(originalIndex);
+                        if (incorrectIndex > -1) {
+                            incorrectQuestions.splice(incorrectIndex, 1);
+                        }
+                    } else {
+                        // ALWAYS show incorrect answers in RED
+                        option.classList.add('incorrect');
+                        // Also highlight the correct answer in GREEN
+                        options[question.correct].classList.add('correct');
+                        document.getElementById('cancelBtn').classList.add('show');
+                        
+                        // Add to incorrect questions
+                        if (!incorrectQuestions.includes(originalIndex)) {
+                            incorrectQuestions.push(originalIndex);
+                        }
+                    }
+                }
+            });
+        }
+
+        function highlightSelectedOptions() {
+            const options = document.querySelectorAll('.option');
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            const selectedIndices = answers[originalIndex] || [];
+            
+            // First, highlight ALL correct answers in GREEN
+            question.correct.forEach(correctIndex => {
+                options[correctIndex].classList.add('correct');
+            });
+            
+            // Then, highlight selected options
+            options.forEach((option, i) => {
+                if (selectedIndices.includes(i)) {
+                    // If selected but incorrect, highlight in RED
+                    if (!question.correct.includes(i)) {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            // Check if answer is correct and update score/tracking
+            const allCorrectSelected = question.correct.every(c => selectedIndices.includes(c));
+            const noIncorrectSelected = selectedIndices.every(s => question.correct.includes(s));
+            
+            if (allCorrectSelected && noIncorrectSelected) {
+                if (!answers[originalIndex]) score++;
+                // Remove from incorrect questions
+                const incorrectIndex = incorrectQuestions.indexOf(originalIndex);
+                if (incorrectIndex > -1) {
+                    incorrectQuestions.splice(incorrectIndex, 1);
+                }
+            } else {
+                // Add to incorrect questions
+                if (!incorrectQuestions.includes(originalIndex)) {
+                    incorrectQuestions.push(originalIndex);
+                }
+            }
+        }
+
+        function cancelSelection() {
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            
+            selectedOption = null;
+            answers[originalIndex] = null;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('rationale').classList.remove('show');
+            document.getElementById('cancelBtn').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+            
+            // Update score display
+            updateScoreDisplay();
+        }
+
+        function showFeedback(index) {
+            const question = filteredQuestions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackText = document.getElementById('feedbackText');
+            const rationale = document.getElementById('rationale');
+            const rationaleText = document.getElementById('rationaleText');
+            
+            if (index === question.correct) {
+                feedback.className = 'feedback correct';
+                feedbackIcon.textContent = '✅';
+                feedbackText.textContent = 'Correct! Well done.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedbackIcon.textContent = '❌';
+                feedbackText.textContent = `Incorrect. The right answer is: ${String.fromCharCode(65 + question.correct)}`;
+            }
+            
+            feedback.style.display = 'flex';
+            rationaleText.textContent = question.rationale;
+            rationale.classList.add('show');
+        }
+
+        function showFeedbackForMultiple() {
+            const question = filteredQuestions[currentQuestion];
+            const originalIndex = questions.indexOf(question);
+            const feedback = document.getElementById('feedback');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackText = document.getElementById('feedbackText');
+            const rationale = document.getElementById('rationale');
+            const rationaleText = document.getElementById('rationaleText');
+            
+            const selectedIndices = answers[originalIndex] || [];
+            const allCorrectSelected = question.correct.every(c => selectedIndices.includes(c));
+            const noIncorrectSelected = selectedIndices.every(s => question.correct.includes(s));
+            
+            if (allCorrectSelected && noIncorrectSelected) {
+                feedback.className = 'feedback correct';
+                feedbackIcon.textContent = '✅';
+                feedbackText.textContent = 'Correct! All right answers selected.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedbackIcon.textContent = '❌';
+                const correctLetters = question.correct.map(c => String.fromCharCode(65 + c)).join(', ');
+                feedbackText.textContent = `Incorrect. The right answers are: ${correctLetters}`;
+            }
+            
+            feedback.style.display = 'flex';
+            rationaleText.textContent = question.rationale;
+            rationale.classList.add('show');
+        }
+
+        function nextCard() {
+            if (currentQuestion < filteredQuestions.length - 1) {
+                currentQuestion++;
+                selectedOption = null;
+                loadQuestion();
+            } else {
+                const correctCount = updateScoreDisplay();
+                
+                alert(`Quiz completed! Your score: ${correctCount}/${questions.length}\nIncorrect questions: ${incorrectQuestions.length}`);
+                
+                if (studyMode === 'incorrect' && incorrectQuestions.length > 0) {
+                    // Continue with incorrect questions
+                    filteredQuestions = questions.filter((_, index) => incorrectQuestions.includes(index));
+                    currentQuestion = 0;
+                    loadQuestion();
+                } else {
+                    // Reset to all questions
+                    currentQuestion = 0;
+                    selectedOption = null;
+                    score = 0;
+                    answers = Array(questions.length).fill(null);
+                    filteredQuestions = [...questions];
+                    setStudyMode('all');
+                }
+            }
+        }
+
+        function previousCard() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                const question = filteredQuestions[currentQuestion];
+                const originalIndex = questions.indexOf(question);
+                selectedOption = answers[originalIndex];
+                loadQuestion();
+            }
+        }
+
+        // Initialize the app
+        loadQuestion();
+    </script>
+</body>
+</html>
